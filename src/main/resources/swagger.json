@@ -1,0 +1,152 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Mock API"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api",
+    "paths": {
+        "/whoami": {
+            "get": {
+                "description": "Returns currently authenticated user",
+                "operationId": "whoami",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "response",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/customer"
+                        }
+                    }
+                }
+            }
+        },
+        "/customer/{ccid}": {
+            "get": {
+                "description": "Returns a specific customer by core customer identifier",
+                "operationId": "findCustomer",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "ccid",
+                        "in": "path",
+                        "description": "Core customer identifier of the customer to fetch.",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "customer response",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/customer"
+                        }
+                    }
+                }
+            }
+        },
+        "/customer/{ccid}/farms": {
+            "get": {
+                "description": "Returns the farms for the customer with the supplied ccid.",
+                "operationId": "customerFarms",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "ccid",
+                        "in": "path",
+                        "description": "Core customer identifier of the customer whose farms to fetch.",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/farm"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "customer": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Unique identifier for the customer."
+                },
+                "ccid": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "The core customer identifier of this customer."
+                },
+                "firstname": {
+                    "type": "string",
+                    "description": "The customers first name."
+                },
+                "lastname": {
+                    "type": "string",
+                    "description": "The customers last name."
+                }
+            }
+        },
+        "farm": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Unique identifier for the farm."
+                },
+                "stateId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "The identifier for the farm's state."
+                },
+                "countyId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "The identifier for the farm's county."
+                },
+                "ownerCcid": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "The core customer identifier of the farm owner."
+                },
+                "operatorCcid": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "The core customer identifier of the farm operator."
+                },
+                "cropLandAcres": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "The amount of cropland acres on the farm."
+                },
+                "farmLandAcres": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "The amount of farmland acres on the farm."
+                }
+            }
+        }
+    }
+}
